@@ -1,2 +1,2 @@
 # BytecodeCallHierarchyScanner
-A java library to scans jar files and finds calls to a method
+A java library to scan jar files and find calls to a method
