@@ -1,5 +1,6 @@
 # Bytecode Call Hierarchy Scanner
-A java library to scan jar files and find calls to a method
+A java library to scan jar files and find calls to a method  
+**This project uses [ASM](http://asm.ow2.org/) to ready the bytecode**
 
 ### Maven
 	<dependency>
