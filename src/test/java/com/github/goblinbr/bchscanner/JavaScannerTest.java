@@ -38,7 +38,7 @@ public class JavaScannerTest {
 	@Test
 	public void findAllClassesThatExtendsOrImplementsAClassShouldReturnTwo(){
 		try {
-			Assert.assertEquals(2,javaScanner.findAllClassesThatExtendsOrImplements("com/sartor/testbytecode/AClassImplementsDInterface").size());
+			Assert.assertEquals(2,javaScanner.findAllClassesThatExtendsOrImplements("com/github/goblinbr/testbytecode/AClassImplementsDInterface").size());
 		} catch (IOException e) {
 			e.printStackTrace();
 			Assert.fail("Should not throw an exception");
@@ -48,7 +48,7 @@ public class JavaScannerTest {
 	@Test
 	public void findAllClassesThatExtendsOrImplementsDInterfaceShouldReturnFour(){
 		try {
-			Assert.assertEquals(4,javaScanner.findAllClassesThatExtendsOrImplements("com/sartor/testbytecode/DInterface").size());
+			Assert.assertEquals(4,javaScanner.findAllClassesThatExtendsOrImplements("com/github/goblinbr/testbytecode/DInterface").size());
 		} catch (IOException e) {
 			e.printStackTrace();
 			Assert.fail("Should not throw an exception");
@@ -58,7 +58,7 @@ public class JavaScannerTest {
 	@Test
 	public void findAllClassesThatExtendsOrImplementsBClassShouldReturnOne(){
 		try {
-			Assert.assertEquals(1,javaScanner.findAllClassesThatExtendsOrImplements("com/sartor/testbytecode/BClassExtendsAClass").size());
+			Assert.assertEquals(1,javaScanner.findAllClassesThatExtendsOrImplements("com/github/goblinbr/testbytecode/BClassExtendsAClass").size());
 		} catch (IOException e) {
 			e.printStackTrace();
 			Assert.fail("Should not throw an exception");
@@ -68,7 +68,7 @@ public class JavaScannerTest {
 	@Test
 	public void findAllClassesThatExtendsOrImplementsInvalidClassShouldReturnZero(){
 		try {
-			Assert.assertEquals(0,javaScanner.findAllClassesThatExtendsOrImplements("com/sartor/testbytecode/InvalidClass").size());
+			Assert.assertEquals(0,javaScanner.findAllClassesThatExtendsOrImplements("com/github/goblinbr/testbytecode/InvalidClass").size());
 		} catch (IOException e) {
 			e.printStackTrace();
 			Assert.fail("Should not throw an exception");
@@ -78,7 +78,7 @@ public class JavaScannerTest {
 	@Test
 	public void findCallersOfDInterfaceGetAShouldReturnFour(){
 		try {
-			Set<JavaMethod> callers = javaScanner.findCallersOfMethod("com/sartor/testbytecode/DInterface", "int getA()");
+			Set<JavaMethod> callers = javaScanner.findCallersOfMethod("com/github/goblinbr/testbytecode/DInterface", "int getA()");
 			Assert.assertEquals(4,callers.size());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -89,7 +89,7 @@ public class JavaScannerTest {
 	@Test
 	public void findCallersOfGClassUseEClassShouldReturnOne(){
 		try {
-			Set<JavaMethod> callers = javaScanner.findCallersOfMethod("com/sartor/testbytecode/GClassUsesAClassAndEClass", "Integer useEClass(Integer)");
+			Set<JavaMethod> callers = javaScanner.findCallersOfMethod("com/github/goblinbr/testbytecode/GClassUsesAClassAndEClass", "Integer useEClass(Integer)");
 			Assert.assertEquals(1,callers.size());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -100,7 +100,7 @@ public class JavaScannerTest {
 	@Test
 	public void findCallersOfInvalidClassShouldReturnZero(){
 		try {
-			Set<JavaMethod> callers = javaScanner.findCallersOfMethod("com/sartor/testbytecode/InvalidClass", "Integer useEClass(Integer)");
+			Set<JavaMethod> callers = javaScanner.findCallersOfMethod("com/github/goblinbr/testbytecode/InvalidClass", "Integer useEClass(Integer)");
 			Assert.assertEquals(0,callers.size());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -111,7 +111,7 @@ public class JavaScannerTest {
 	@Test
 	public void findCallersOfInvalidMethodShouldReturnZero(){
 		try {
-			Set<JavaMethod> callers = javaScanner.findCallersOfMethod("com/sartor/testbytecode/GClassUsesAClassAndEClass", "Integer invalidMethod(Integer)");
+			Set<JavaMethod> callers = javaScanner.findCallersOfMethod("com/github/goblinbr/testbytecode/GClassUsesAClassAndEClass", "Integer invalidMethod(Integer)");
 			Assert.assertEquals(0,callers.size());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -122,7 +122,7 @@ public class JavaScannerTest {
 	@Test
 	public void findCallersOfClassGClassAnyMethodShouldReturnOne(){
 		try {
-			Set<JavaMethod> callers = javaScanner.findCallersOfAnyMethod("com/sartor/testbytecode/GClassUsesAClassAndEClass");
+			Set<JavaMethod> callers = javaScanner.findCallersOfAnyMethod("com/github/goblinbr/testbytecode/GClassUsesAClassAndEClass");
 			Assert.assertEquals(1,callers.size());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -133,7 +133,7 @@ public class JavaScannerTest {
 	@Test
 	public void findCallersOfClassDInterfaceAnyMethodShouldReturnFive(){
 		try {
-			Set<JavaMethod> callers = javaScanner.findCallersOfAnyMethod("com/sartor/testbytecode/DInterface");
+			Set<JavaMethod> callers = javaScanner.findCallersOfAnyMethod("com/github/goblinbr/testbytecode/DInterface");
 			Assert.assertEquals(5,callers.size());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -144,7 +144,7 @@ public class JavaScannerTest {
 	@Test
 	public void findCallHierarchyOfClassDInterfaceShouldReturnFive(){
 		try {
-			CallHierarchy callHierarchy = javaScanner.findCallHierarchyOfAnyMethod("com/sartor/testbytecode/DInterface");
+			CallHierarchy callHierarchy = javaScanner.findCallHierarchyOfAnyMethod("com/github/goblinbr/testbytecode/DInterface");
 			List<CallHierarchy> callers = callHierarchy.getCallers();
 			Assert.assertEquals(5,callers.size());
 		} catch (IOException e) {
@@ -156,7 +156,7 @@ public class JavaScannerTest {
 	@Test
 	public void findCallersOfJClassCreateIClassShouldReturnOne(){
 		try {
-			Set<JavaMethod> callers = javaScanner.findCallersOfMethod("com/sartor/testbytecode/JClassUsesIClass", "com.sartor.testbytecode.IClass createIClass(com.sartor.testbytecode.IClass,com.sartor.testbytecode.IClass)");
+			Set<JavaMethod> callers = javaScanner.findCallersOfMethod("com/github/goblinbr/testbytecode/JClassUsesIClass", "com.github.goblinbr.testbytecode.IClass createIClass(com.github.goblinbr.testbytecode.IClass,com.github.goblinbr.testbytecode.IClass)");
 			Assert.assertEquals(1,callers.size());
 		} catch (IOException e) {
 			e.printStackTrace();
