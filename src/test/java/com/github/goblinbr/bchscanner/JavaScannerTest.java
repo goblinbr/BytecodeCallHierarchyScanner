@@ -66,9 +66,9 @@ public class JavaScannerTest {
 	}
 	
 	@Test
-	public void findAllClassesThatExtendsOrImplementsInvalidClassShouldReturnZero(){
+	public void findAllClassesThatExtendsOrImplementsInvalidClassShouldReturnOne(){
 		try {
-			Assert.assertEquals(0,javaScanner.findAllClassesThatExtendsOrImplements("com/github/goblinbr/testbytecode/InvalidClass").size());
+			Assert.assertEquals(1,javaScanner.findAllClassesThatExtendsOrImplements("com/github/goblinbr/testbytecode/InvalidClass").size());
 		} catch (IOException e) {
 			e.printStackTrace();
 			Assert.fail("Should not throw an exception");
@@ -163,4 +163,5 @@ public class JavaScannerTest {
 			Assert.fail("Should not throw an exception");
 		}
 	}
+
 }

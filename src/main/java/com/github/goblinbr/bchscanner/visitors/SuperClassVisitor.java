@@ -9,16 +9,15 @@ import org.objectweb.asm.Opcodes;
 public class SuperClassVisitor extends ClassVisitor {
 
 	private Set<String> classNames;
-	private String classNameToSearch;
 
 	public SuperClassVisitor( String classNameToSearch ) {
 		super(Opcodes.ASM5);
-		this.classNameToSearch = classNameToSearch;
 		this.classNames = new TreeSet<String>();
+		this.classNames.add(classNameToSearch);
 	}
 
 	public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
-		if( this.classNames.contains(superName) || this.classNameToSearch.equals(name) ){
+		if( superName != null && this.classNames.contains(superName) ){
 			this.classNames.add(name);
 		}
 		else {

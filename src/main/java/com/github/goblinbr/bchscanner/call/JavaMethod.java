@@ -24,6 +24,24 @@ public class JavaMethod implements Comparable<JavaMethod> {
 		return methodName;
 	}
 	
+	public String getSimpleClassName() {
+		String simpleName = this.className;
+		int index = this.className.lastIndexOf("/");
+		if( index >= 0 ){
+			simpleName = this.className.substring( index + 1 );
+		}
+		return simpleName;
+	}
+	
+	public String getPackageName() {
+		String packageName = "";
+		int index = this.className.lastIndexOf("/");
+		if( index >= 0 ){
+			packageName = this.className.substring( 0, index ).replace("/", ".");
+		}
+		return packageName;
+	}
+	
 	@Override
 	public int hashCode() {
 		return (className + methodName + methodDesc).hashCode();

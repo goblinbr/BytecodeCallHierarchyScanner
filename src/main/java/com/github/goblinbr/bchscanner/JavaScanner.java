@@ -138,8 +138,8 @@ public class JavaScanner implements Closeable {
 	/**
 	 * Find all classes that extends or implements class/interface <b>className</b>
 	 * @param className the full class name. ex: "java/lang/Integer"
-	 * @return a Set with all classes names, if <b>className</b> exists it will be at the Set too,
-	 *         it will only return a empty Set if no class extends or implements <b>className</b> and <b>className</b> isn't present at the jar
+	 * @return a Set with all classes names, <b>className</b> will be at the Set too,
+	 *         it will always return a Set with at least <b>className</b> inside
 	 * @throws IOException if an I/O error has occurred
 	 */
 	public Set<String> findAllClassesThatExtendsOrImplements( String className ) throws IOException{
