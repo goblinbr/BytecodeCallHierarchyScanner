@@ -5,18 +5,14 @@ import java.util.List;
 
 public class CallHierarchy implements Comparable<CallHierarchy> {
 	
-	private String className;
-	private String methodName;
-	private String methodDesc;
+	private JavaMethod method;
 	
 	private CallHierarchy callee;
 	private List<CallHierarchy> callers;
 
 	public CallHierarchy(CallHierarchy callee, String className, String methodName, String methodDesc) {
 		this.callee = callee;
-		this.className = className;
-		this.methodName = methodName;
-		this.methodDesc = methodDesc;
+		this.method = new JavaMethod(className, methodName, methodDesc);
 		this.callers = new ArrayList<CallHierarchy>();
 	}
 	
@@ -32,21 +28,13 @@ public class CallHierarchy implements Comparable<CallHierarchy> {
 		return callers;
 	}
 	
-	public String getClassName() {
-		return className;
-	}
-	
-	public String getMethodDesc() {
-		return methodDesc;
-	}
-	
-	public String getMethodName() {
-		return methodName;
+	public JavaMethod getMethod() {
+		return method;
 	}
 	
 	@Override
 	public int hashCode() {
-		return (className + methodName + methodDesc).hashCode();
+		return this.method.hashCode();
 	}
 	
 	@Override
@@ -55,14 +43,7 @@ public class CallHierarchy implements Comparable<CallHierarchy> {
 	}
 
 	public int compareTo(CallHierarchy o) {
-		int comp = this.className.compareTo(o.className);
-		if( comp == 0 ){
-			comp = this.methodName.compareTo(o.methodName);
-			if( comp == 0 ){
-				comp = this.methodDesc.compareTo(o.methodDesc);
-			}
-		}
-		return comp;
+		return this.method.compareTo(o.method);
 	}
 	
 	@Override
@@ -73,16 +54,13 @@ public class CallHierarchy implements Comparable<CallHierarchy> {
 			spaces += " ";
 			c = c.getCallee();
 		}
-		return spaces + this.className + ( ( this.methodName.equals("") ) ? "" : "." + this.methodName + this.methodDesc );
+		return spaces + this.method.toString();
 	}
 
-	public boolean containsCall(String className, String methodName, String methodDesc) {
-		boolean contains = false;
-		if( this.className.equals(className) && this.methodName.equals(methodName) && this.methodDesc.equals(methodDesc) ){
-			contains = true;
-		}
-		else if( this.callee != null ){
-			contains = callee.containsCall(className, methodName, methodDesc);
+	public boolean containsCall(JavaMethod method) {
+		boolean contains = this.method.equals(method);
+		if( !contains && callee != null ){
+			contains = callee.containsCall(method);
 		}
 		return contains;
 	} 

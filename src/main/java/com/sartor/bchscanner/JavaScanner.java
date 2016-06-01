@@ -13,7 +13,7 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.commons.Method;
 
 import com.sartor.bchscanner.call.CallHierarchy;
-import com.sartor.bchscanner.call.Caller;
+import com.sartor.bchscanner.call.JavaMethod;
 import com.sartor.bchscanner.visitors.CallerClassVisitor;
 import com.sartor.bchscanner.visitors.SuperClassVisitor;
 
@@ -37,11 +37,24 @@ public class JavaScanner implements Closeable {
 		this.jarFile = new JarFile(jarPath);
 	}
 	
-	public Set<Caller> findCallersOfAnyMethod( String className ) throws IOException {
+	/**
+	 * Find callers of any method of the class <b>className</b> or any subclass
+	 * @param className the full class name. ex: "java/lang/Integer"
+	 * @return a Set with the callers or a empty Set if no one was found
+	 * @throws IOException if an I/O error has occurred
+	 */
+	public Set<JavaMethod> findCallersOfAnyMethod( String className ) throws IOException {
 		return findCallersOfMethod( className, null );
 	}
 	
-	public Set<Caller> findCallersOfMethod( String className, String methodSignature ) throws IOException {
+	/**
+	 * Find callers of <b>methodSignature</b> of the class <b>className</b> or any subclass
+	 * @param className the full class name. ex: "java/lang/Integer"
+	 * @param methodSignature method signature. ex: "java.lang.Integer methodName(java.lang.Integer)"
+	 * @return a Set with the callers or a empty Set if no one was found
+	 * @throws IOException if an I/O error has occurred
+	 */
+	public Set<JavaMethod> findCallersOfMethod( String className, String methodSignature ) throws IOException {
 		String methodName = "";
 		String methodDesc = "";
 		if( methodSignature != null ){
@@ -53,7 +66,7 @@ public class JavaScanner implements Closeable {
 		return findCallersOfMethod( className, methodName, methodDesc );
 	}
 	
-	private Set<Caller> findCallersOfMethod(String className, String methodName, String methodDesc) throws IOException {
+	private Set<JavaMethod> findCallersOfMethod(String className, String methodName, String methodDesc) throws IOException {
 		Set<String> classNames = findAllClassesThatExtendsOrImplements(className);
 		
 		CallerClassVisitor callerClassVisitor = new CallerClassVisitor( classNames, methodName, methodDesc );
@@ -73,6 +86,13 @@ public class JavaScanner implements Closeable {
 		return callerClassVisitor.getCallers();
 	}
 
+	/**
+	 * Find call hierarchy of <b>methodSignature</b> of the class <b>className</b> or any subclass
+	 * @param className the full class name. ex: "java/lang/Integer"
+	 * @param methodSignature method signature. ex: "java.lang.Integer methodName(java.lang.Integer)"
+	 * @return a CallHierarchy starting with the parameter method
+	 * @throws IOException if an I/O error has occurred
+	 */
 	public CallHierarchy findCallHierarchy( String className, String methodSignature ) throws IOException {
 		String methodName = "";
 		String methodDesc = "";
@@ -90,9 +110,10 @@ public class JavaScanner implements Closeable {
 	}
 	
 	private void findCallHierarchy(CallHierarchy callHierarchy) throws IOException {
-		Set<Caller> callers = findCallersOfMethod( callHierarchy.getClassName(), callHierarchy.getMethodName(), callHierarchy.getMethodDesc() );
-		for( Caller caller : callers ){
-			if( !callHierarchy.containsCall( caller.getClassName(), caller.getMethodName(), caller.getMethodDesc() ) ){
+		JavaMethod method = callHierarchy.getMethod();
+		Set<JavaMethod> callers = findCallersOfMethod( method.getClassName(), method.getMethodName(), method.getMethodDesc() );
+		for( JavaMethod caller : callers ){
+			if( !callHierarchy.containsCall( caller ) ){
 				
 				CallHierarchy callHierarchyCaller = new CallHierarchy(callHierarchy, caller.getClassName(), caller.getMethodName(), caller.getMethodDesc() );
 				callHierarchy.addCaller( callHierarchyCaller );
@@ -104,19 +125,23 @@ public class JavaScanner implements Closeable {
 		}
 	}
 	
+	/**
+	 * Find call hierarchy of any method of the class <b>className</b> or any subclass
+	 * @param className the full class name. ex: "java/lang/Integer"
+	 * @return a CallHierarchy starting with the parameter class
+	 * @throws IOException if an I/O error has occurred
+	 */
 	public CallHierarchy findCallHierarchyOfAnyMethod(String className) throws IOException {
 		return findCallHierarchy(className, null);
 	}
-	
-	public boolean extendsOrImplements( String className, String extendsImplementsName ) throws IOException{
-		boolean ext = className.equals(extendsImplementsName);
-		if( !ext ){
-			Set<String> extendsList = findAllClassesThatExtendsOrImplements( extendsImplementsName );
-			ext = extendsList.contains(className);
-		}
-		return ext;
-	}
-	
+
+	/**
+	 * Find all classes that extends or implements class/interface <b>className</b>
+	 * @param className the full class name. ex: "java/lang/Integer"
+	 * @return a Set with all classes names, if <b>className</b> exists it will be at the Set too,
+	 *         it will only return a empty Set if no class extends or implements <b>className</b> and <b>className</b> isn't present at the jar
+	 * @throws IOException if an I/O error has occurred
+	 */
 	public Set<String> findAllClassesThatExtendsOrImplements( String className ) throws IOException{
 		SuperClassVisitor superClassVisitor = new SuperClassVisitor( className );
 		int qtyClass;
@@ -141,6 +166,10 @@ public class JavaScanner implements Closeable {
 		return superClassVisitor.getClassNames();
 	}
 
+	/**
+	 * Closes the jar file
+	 * @throws IOException if an I/O error has occurred
+	 */
 	public void close() throws IOException {
 		if( this.jarFile != null ){
 			this.jarFile.close();

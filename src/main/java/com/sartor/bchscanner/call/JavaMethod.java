@@ -1,11 +1,12 @@
 package com.sartor.bchscanner.call;
 
-public class Caller implements Comparable<Caller> {
+public class JavaMethod implements Comparable<JavaMethod> {
+	
 	private String className;
 	private String methodName;
 	private String methodDesc;
 
-	public Caller(String className, String methodName, String methodDesc) {
+	public JavaMethod(String className, String methodName, String methodDesc) {
 		this.className = className;
 		this.methodName = methodName;
 		this.methodDesc = methodDesc;
@@ -30,10 +31,10 @@ public class Caller implements Comparable<Caller> {
 	
 	@Override
 	public boolean equals(Object obj) {
-		return obj != null && obj.getClass() == Caller.class && obj.hashCode() == this.hashCode();
+		return obj != null && obj.getClass() == JavaMethod.class && obj.hashCode() == this.hashCode();
 	}
 
-	public int compareTo(Caller o) {
+	public int compareTo(JavaMethod o) {
 		int comp = this.className.compareTo(o.className);
 		if( comp == 0 ){
 			comp = this.methodName.compareTo(o.methodName);
@@ -46,6 +47,6 @@ public class Caller implements Comparable<Caller> {
 	
 	@Override
 	public String toString() {
-		return this.className + "." + this.methodName + this.methodDesc;
+		return this.className + ( ( this.methodName.equals("") ) ? "" : "." + this.methodName + this.methodDesc );
 	}
 }

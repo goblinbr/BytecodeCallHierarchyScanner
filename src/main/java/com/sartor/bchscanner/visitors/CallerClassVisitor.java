@@ -8,7 +8,7 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-import com.sartor.bchscanner.call.Caller;
+import com.sartor.bchscanner.call.JavaMethod;
 
 public class CallerClassVisitor extends ClassVisitor {
 
@@ -31,13 +31,13 @@ public class CallerClassVisitor extends ClassVisitor {
 		return this.methodVisitor;
 	}
 	
-	public Set<Caller> getCallers() {
+	public Set<JavaMethod> getCallers() {
 		return this.methodVisitor.getCallers();
 	}
 	
 	class ThisMethodVisitor extends MethodVisitor {
 		
-		private Set<Caller> callers;
+		private Set<JavaMethod> callers;
 		private Collection<String> classesAndSuperClasses;
 		private String methodName;
 		private String methodDesc;
@@ -48,7 +48,7 @@ public class CallerClassVisitor extends ClassVisitor {
 		
 		public ThisMethodVisitor( Collection<String> classesAndSuperClasses, String methodName, String methodDesc ) {
 			super(Opcodes.ASM5);
-			this.callers = new TreeSet<Caller>();
+			this.callers = new TreeSet<JavaMethod>();
 			this.classesAndSuperClasses = classesAndSuperClasses;
 			this.methodName = methodName;
 			this.methodDesc = methodDesc;
@@ -66,14 +66,14 @@ public class CallerClassVisitor extends ClassVisitor {
 			this.actualMethodDesc = actualMethodDesc;
 		}
 		
-		public Set<Caller> getCallers() {
+		public Set<JavaMethod> getCallers() {
 			return callers;
 		}
 		
 		@Override
 		public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
 			if ( this.classesAndSuperClasses.contains(owner) && (this.methodName == null || this.methodName.equals("") || name.equals(this.methodName) && desc.equals(this.methodDesc))) {
-				Caller caller = new Caller(this.actualClassName, this.actualMethodName, this.actualMethodDesc);
+				JavaMethod caller = new JavaMethod(this.actualClassName, this.actualMethodName, this.actualMethodDesc);
 				this.callers.add(caller);
 			}
 		}
