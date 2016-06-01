@@ -1,4 +1,4 @@
-package com.sartor.bchscanner;
+package com.github.goblinbr.bchscanner;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,9 +9,9 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.sartor.bchscanner.JavaScanner;
-import com.sartor.bchscanner.call.CallHierarchy;
-import com.sartor.bchscanner.call.JavaMethod;
+import com.github.goblinbr.bchscanner.JavaScanner;
+import com.github.goblinbr.bchscanner.call.CallHierarchy;
+import com.github.goblinbr.bchscanner.call.JavaMethod;
 
 public class JavaScannerTest {
 

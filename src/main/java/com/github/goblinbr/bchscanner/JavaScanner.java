@@ -1,4 +1,4 @@
-package com.sartor.bchscanner;
+package com.github.goblinbr.bchscanner;
 
 import java.io.BufferedInputStream;
 import java.io.Closeable;
@@ -12,10 +12,10 @@ import java.util.jar.JarFile;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.commons.Method;
 
-import com.sartor.bchscanner.call.CallHierarchy;
-import com.sartor.bchscanner.call.JavaMethod;
-import com.sartor.bchscanner.visitors.CallerClassVisitor;
-import com.sartor.bchscanner.visitors.SuperClassVisitor;
+import com.github.goblinbr.bchscanner.call.CallHierarchy;
+import com.github.goblinbr.bchscanner.call.JavaMethod;
+import com.github.goblinbr.bchscanner.visitors.CallerClassVisitor;
+import com.github.goblinbr.bchscanner.visitors.SuperClassVisitor;
 
 /**
  * A class that scans jar files and finds calls to a method

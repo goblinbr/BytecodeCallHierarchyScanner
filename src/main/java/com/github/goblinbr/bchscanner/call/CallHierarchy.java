@@ -1,4 +1,4 @@
-package com.sartor.bchscanner.call;
+package com.github.goblinbr.bchscanner.call;
 
 import java.util.ArrayList;
 import java.util.List;

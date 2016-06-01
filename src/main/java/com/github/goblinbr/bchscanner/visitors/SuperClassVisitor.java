@@ -1,4 +1,4 @@
-package com.sartor.bchscanner.visitors;
+package com.github.goblinbr.bchscanner.visitors;
 
 import java.util.Set;
 import java.util.TreeSet;

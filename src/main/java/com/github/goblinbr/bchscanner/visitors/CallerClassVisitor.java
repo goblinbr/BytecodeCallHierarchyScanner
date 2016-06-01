@@ -1,4 +1,4 @@
-package com.sartor.bchscanner.visitors;
+package com.github.goblinbr.bchscanner.visitors;
 
 import java.util.Collection;
 import java.util.Set;
@@ -8,7 +8,7 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-import com.sartor.bchscanner.call.JavaMethod;
+import com.github.goblinbr.bchscanner.call.JavaMethod;
 
 public class CallerClassVisitor extends ClassVisitor {
 

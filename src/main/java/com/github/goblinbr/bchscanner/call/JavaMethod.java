@@ -1,4 +1,4 @@
-package com.sartor.bchscanner.call;
+package com.github.goblinbr.bchscanner.call;
 
 public class JavaMethod implements Comparable<JavaMethod> {
 	
